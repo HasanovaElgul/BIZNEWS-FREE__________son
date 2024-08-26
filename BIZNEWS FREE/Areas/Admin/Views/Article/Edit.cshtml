@@ -1,0 +1,88 @@
+﻿@model Article
+<!-- Эта информация не меняется -->
+<form method="post" enctype="multipart/form-data">
+    <input type="hidden" asp-for="Id"/>                  
+    <input type="hidden" asp-for="CreatedBy"/>
+    <input type="hidden" asp-for="CreatedDate" />
+    <input type="hidden" asp-for="PhotoUrl" />
+
+    <!-- Группа для ввода заголовка статьи -->
+    <div class="form-group">
+        <label asp-for="Title"></label>
+        <input type="text" asp-for="Title" class="form-control" value="@Model.Title"/>
+        <span asp-validation-for="Title" class="text-danger"></span>
+    </div>
+    
+
+    <!-- Группа для ввода содержания статьи -->
+    <div class="form-group">
+        <label asp-for="Content"></label>
+        <textarea id="editor1" asp-for="Content" class="form-control"></textarea>
+        <span asp-validation-for="Content" class="text-danger"></span>
+    </div>
+
+    <!-- Группа для выбора категории статьи -->
+    <div class="form-group">
+        <select asp-for="CategoryId" asp-items="ViewBag.Categories" class="form-control">
+            <option value="">Select category</option>
+        </select>
+        <span asp-validation-for="CategoryId" class="text-danger"></span>
+    </div>
+
+    <!-- Группа для выбора тегов статьи -->
+    <div class="form-group">
+        <select multiple name="tagIds" class="form-control">
+            @foreach (var item in ViewBag.Tags as List<Tag>)
+               {
+                   if (Model.ArticleTags.Select(x => x.TagId).Contains(item.Id))
+                    {
+                    <option selected value="@item.Id">@item.TagName</option>
+                }
+                else
+                {
+                    <option value="@item.Id">@item.TagName</option>
+                }
+            }
+               
+
+            
+        </select>
+    </div>
+
+    <!-- Поле для загрузки файла -->
+    <div class="form-group">
+        <input type="file" accept="image/*" name="file" class="form-control" value="" />
+        <span asp-validation-for="PhotoUrl" class="text-danger"></span>
+        <img src="@Model.PhotoUrl" width="200" alt="" />
+    </div>                                
+
+    <!-- Опции для определенных ролей пользователей -->
+    @if (User.IsInRole("Admin editor") || User.IsInRole("Admin") || User.IsInRole("SuperAdmin") || User.IsInRole("Manager"))
+    {
+        <div class="form-group">
+            <input type="checkbox" asp-for="IsActive" class="form-check-input" />
+            <label asp-for="IsActive" class="form-check-label">Active</label>
+        </div>
+        <div class="form-group">
+            <input type="checkbox" asp-for="IsFeature" class="form-check-input" />
+            <label asp-for="IsFeature" class="form-check-label">Deaktive</label>
+        </div>
+        <div class="form-group">
+            <input type="checkbox" asp-for="IsDeleted" class="form-check-input" />
+            <label asp-for="IsDeleted" class="form-check-label">IsDeleted</label>
+        </div>
+    }
+
+    <!-- Кнопка для отправки формы -->
+    <input type="submit" class="btn btn-dark" value="Update" />
+</form>
+
+@section Script
+{
+    <script src="//cdn.ckeditor.com/4.22.0/standard/ckeditor.js"></script>
+    <script>
+        CKEDITOR.replace('editor1');
+    </script>
+}
+
+

@@ -1,0 +1,67 @@
+﻿@model Article
+
+<form method="post" enctype="multipart/form-data">
+    <!-- Группа для ввода заголовка статьи -->
+    <div class="form-group">
+        <label asp-for="Title"></label>
+        <input type="text" asp-for="Title" class="form-control" value="" />
+        <span asp-validation-for="Title" class="text-danger"></span>
+    </div>
+
+    <!-- Группа для ввода содержания статьи -->
+    <div class="form-group">
+        <label asp-for="Content"></label>
+        <textarea id="editor1" asp-for="Content" class="form-control"></textarea>
+        <span asp-validation-for="Content" class="text-danger"></span>
+    </div>
+
+    <!-- Группа для выбора категории статьи -->
+    <div class="form-group">
+        <select asp-for="CategoryId" asp-items="ViewBag.Categories" class="form-control">
+            <option value="">Select category</option>
+        </select>
+        <span asp-validation-for="CategoryId" class="text-danger"></span>
+    </div>
+
+    <!-- Группа для выбора тегов статьи -->
+    <div class="form-group">
+        <select multiple name="tagIds" class="form-control">
+            @foreach (var item in ViewData["tags"] as List<Tag>)
+            {
+                <option value="@item.Id">@item.TagName</option>
+            }
+        </select>
+    </div>
+
+    <!-- Поле для загрузки файла -->
+    <div class="form-group">
+        <input type="file" accept="image/*" name="file" class="form-control" value="" />
+        <span asp-validation-for="PhotoUrl" class="text-danger"></span>
+    </div>
+
+    <!-- Опции для определенных ролей пользователей -->
+    @if (User.IsInRole("Admin editor") || User.IsInRole("Admin") || User.IsInRole("SuperAdmin") || User.IsInRole("Manager"))
+    {
+        <div class="form-group">
+            <input type="checkbox" asp-for="IsFeature" class="form-check-input" />
+            <label asp-for="IsFeature" class="form-check-label">Deaktive</label>
+        </div>
+        <div class="form-group">
+            <input type="checkbox" asp-for="IsActive" class="form-check-input" />
+            <label asp-for="IsActive" class="form-check-label">Aktive</label>
+        </div>
+    }
+
+    <!-- Кнопка для отправки формы -->
+    <input type="submit" class="btn btn-dark" value="Create" />
+</form>
+
+@section Script 
+{
+    <script src="//cdn.ckeditor.com/4.22.0/standard/ckeditor.js"></script>
+    <script>
+        CKEDITOR.replace('editor1');
+    </script>
+}
+
+
