@@ -1,4 +1,6 @@
-﻿<!DOCTYPE html>
+﻿
+
+<!DOCTYPE html>
 <html lang="en">
 
 <head>
@@ -128,25 +130,32 @@
             </div>
             <div class="col-lg-3 col-md-6 mb-5">
                 <h5 class="mb-4 text-white text-uppercase font-weight-bold">Popular News</h5>
-                @for (int i = 0; i < Model.FeaturedArticles.Count && i < 2; i++)
+                @for (int i = 0; i < Model.Articles.Count && i < 2; i++)
                 {
                     <div class="mb-3">
 
                     <div class="mb-2">
-                            <a class="badge badge-primary text-uppercase font-weight-semi-bold p-1 mr-2" href="">@Model.FeaturedArticles[i].Title</a>
-                            <a class="text-body" href=""><small>@Model.FeaturedArticles[i].CreatedDate.ToString("dd/MM/yyyy")</small></a>
+                            <a class="badge badge-primary text-uppercase font-weight-semi-bold p-1 mr-2" href="">@Model.Articles[i].Title</a>
+                            <a class="text-body" href=""><small>@Model.Articles[i].CreatedDate.ToString("dd/MM/yyyy")</small></a>
                     </div>
 
 
 
                         <a class="small text-body text-uppercase font-weight-medium" href="">
-                            @Html.Raw(Model.FeaturedArticles[i].Content.Length > 100
-                                     ? Model.FeaturedArticles[i].Content.Substring(0, 100) + "..."      //если длина текста больше 100 символов, берется первые 100 символов, и добавляется многоточие.  Если текст короче или равен 100 символам, он отображается полностью.
-                                     : Model.FeaturedArticles[i].Content)
+                            @Html.Raw(Model.Articles[i].Content.Length > 100
+                                     ? Model.Articles[i].Content.Substring(0, 100) + "..."      //если длина текста больше 100 символов, берется первые 100 символов, и добавляется многоточие.  Если текст короче или равен 100 символам, он отображается полностью.
+                                     : Model.Articles[i].Content)
                         </a>
                 </div>  
                 }
-                
+                  // bunlar burda yox her sehifenin ozunde olmalidi
+                  // struktor sehvdi
+                  // layout silib tezden yazmaq la)))))
+                  // Deyme buna qoy qalsin esas odu isleyir amma bundan sonra ki proyekte duz yaz)))
+                  // deymez
+                  // bu forlar vareee onlar esliden Detail actionin icinde olmalidi
+                  // yeni her statya ayrica getirmelidir sen amma umumi layoutda cagirmisan bunu nece bacarmisan helede bilmirem halaldii )))
+                  //ay sagol
             </div>
 
 
