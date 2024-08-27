@@ -9,5 +9,6 @@ namespace BIZNEWS_FREE.ViewModels
         public List<Article> FeaturedArticles { get; set; }
 
 
+
     }
 }

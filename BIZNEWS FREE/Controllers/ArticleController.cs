@@ -24,11 +24,15 @@ namespace BIZNEWS_FREE.Controllers
                 .ThenInclude(x => x.Tag)
                 .FirstOrDefault(x => x.Id == id);
 
+
+
+
             var articles = _context.Articles
                 .Include(x => x.Category)
                 .Where(x => x.IsDeleted == false)
                 .OrderByDescending(x => x.UpdatedDate)
                 .ToList();
+
             var featuredArticles = _context.Articles
                 .Include(x => x.Category)
                 .Where(x => x.IsActive == true && x.IsFeature == false)
@@ -41,6 +45,10 @@ namespace BIZNEWS_FREE.Controllers
                 Articles = articles,
                 FeaturedArticles = featuredArticles
             };
+
+            //meqale 0 indeksdedir var currentArticle = articles.IndexOf(article);     
+            //1ci indeksde olan meqaleni gorsedecek var prev = currentArticle <= 0 ? null : articles[currentArticle - 1]; 
+            // var next = currentArticle + 1 >= articles.Count ? null : articles[currentArticle + 1];   eger 101 varsa gorsedecek eger yoxdursa null gorsedecek
 
             var cookie = _contextAccessor.HttpContext.Request.Cookies["Views"];
             string[] findCookie = { "" };
@@ -60,10 +68,12 @@ namespace BIZNEWS_FREE.Controllers
                        Expires = DateTime.Now.AddYears(1)
                    });
 
-                article.ViewCount += 1;
-                _context.Articles.Update(article);
-                _context.SaveChanges();
+
             }
+            article.ViewCount += 1;
+            _context.Articles.Update(article);
+            _context.SaveChanges();
+
 
             return View(detailVM);
 

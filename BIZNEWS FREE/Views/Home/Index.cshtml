@@ -81,6 +81,7 @@
                                     <a class="text-white" href=""><small>@Model.FeaturedArticles[i].CreatedDate.ToString("dd/MM/yyyy")</small></a>
                                 </div>
                                 <a class="h6 m-0 text-white text-uppercase font-weight-semi-bold" href="/article/detail/@Model.FeaturedArticles[i].Id/@Model.FeaturedArticles[i].SeoUrl">@Model.FeaturedArticles[i].Title</a>
+                                
                             </div>
                         </div>
                     </div>
@@ -111,6 +112,7 @@
                             <a class="text-white" href=""><small>@Model.FeaturedArticles[i].CreatedDate.ToString("dd/MM/yyyy")</small></a>
                     </div>
                         <a class="h6 m-0 text-white text-uppercase font-weight-semi-bold" href="">@Model.FeaturedArticles[i].Title</a>
+                        
                 </div>
             </div> 
                 
@@ -319,6 +321,7 @@
                                     <a class="text-body" href=""><small>@item.CreatedDate</small></a>
                                 </div>
                                 <a class="h6 m-0 text-secondary text-uppercase font-weight-bold" href="">@item.Title</a>
+                                    <small class="ml-3"><i class="far fa-eye mr-2"></i>@item.ViewCount</small>
                             </div>
                         </div>
                         }
