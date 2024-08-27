@@ -32,10 +32,14 @@ namespace BIZNEWS_FREE.Controllers
                 .OrderByDescending(x => x.UpdatedDate)
                 .ToList();
 
+            var popular = _context.Articles                          //saytda sağ tərəfdə yeni blok yaradmaq ucun bit=rinci burda bunu yazırıq
+                .OrderByDescending(x => x.ViewCount).Take(3).ToList();
+
             HomeVM homeVM = new()
             {
                 FeaturedArticles = featuredArticles,
-                Articles = articles
+                Articles = articles,
+                PopularArticles = popular
             };
             return View(homeVM);
         }
