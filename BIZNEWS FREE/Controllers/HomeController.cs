@@ -24,7 +24,7 @@ namespace BIZNEWS_FREE.Controllers
                 .Include(x => x.Category)
                 .Where(x => x.IsActive == true && x.IsFeature == false)
                  .OrderByDescending(x => x.ViewCount)
-                .Take(7).ToList();                           // Берем 7 статей: 3 для основной карусели и 4 для дополнительного блока
+                .Take(7).ToList();
 
             var articles = _context.Articles
                 .Include(x => x.Category)

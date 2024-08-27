@@ -8,20 +8,20 @@ namespace BIZNEWS_FREE.Controllers
     public class ArticleController : Controller
     {
         private readonly AppDbContext _context;
+        private readonly IHttpContextAccessor _contextAccessor;
 
-        public ArticleController(AppDbContext context)
+        public ArticleController(AppDbContext context, IHttpContextAccessor contextAccessor)
         {
             _context = context;
+            _contextAccessor = contextAccessor;
         }
-        // ne volnuysya net problem 
-        // ne mnojka da ostalas
-        // da 
+
         public IActionResult Detail(int id)
         {
             var article = _context.Articles
                 .Include(x => x.Category)
                 .Include(x => x.ArticleTags)
-                .ThenInclude(x => x.Tag) // Предполагается, что Tag является свойством в ArticleTags                       ChatGPT))))
+                .ThenInclude(x => x.Tag)
                 .FirstOrDefault(x => x.Id == id);
 
             var articles = _context.Articles
@@ -34,6 +34,7 @@ namespace BIZNEWS_FREE.Controllers
                 .Where(x => x.IsActive == true && x.IsFeature == false)
                  .OrderByDescending(x => x.ViewCount)
                 .Take(7).ToList();
+
             DetailVM detailVM = new()
             {
                 Article = article,
@@ -41,10 +42,31 @@ namespace BIZNEWS_FREE.Controllers
                 FeaturedArticles = featuredArticles
             };
 
+            var cookie = _contextAccessor.HttpContext.Request.Cookies["Views"];
+            string[] findCookie = { "" };
+
+            if (cookie != null)
+            {
+                findCookie = cookie.Split('-').ToArray();
+            }
+
+            if (!findCookie.Contains(article.Id.ToString()))
+            {
+                Response.Cookies.Append("Views", $"{cookie}-{article.Id}",
+                   new CookieOptions
+                   {
+                       Secure = true,
+                       HttpOnly = true,
+                       Expires = DateTime.Now.AddYears(1)
+                   });
+
+                article.ViewCount += 1;
+                _context.Articles.Update(article);
+                _context.SaveChanges();
+            }
 
             return View(detailVM);
 
         }
-
     }
 }
