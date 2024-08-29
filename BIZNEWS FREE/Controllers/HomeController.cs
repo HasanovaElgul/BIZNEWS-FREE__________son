@@ -10,6 +10,7 @@ namespace BIZNEWS_FREE.Controllers
         private readonly ILogger<HomeController> _logger;
         private readonly AppDbContext _context;
 
+
         public HomeController(ILogger<HomeController> logger, AppDbContext context)
         {
             _logger = logger;
@@ -33,11 +34,15 @@ namespace BIZNEWS_FREE.Controllers
             var popular = _context.Articles                          //saytda sağ tərəfdə yeni blok yaradmaq ucun bit=rinci burda bunu yazırıq
                 .OrderByDescending(x => x.ViewCount).Take(3).ToList();
 
+
+            var categories = _context.Categories.ToList();
+
             HomeVM homeVM = new()
             {
                 FeaturedArticles = featuredArticles,
                 Articles = articles,
-                PopularArticles = popular
+                PopularArticles = popular,
+                Categories = categories
             };
             return View(homeVM);
         }

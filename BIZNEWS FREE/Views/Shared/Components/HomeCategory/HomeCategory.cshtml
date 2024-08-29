@@ -1,32 +1,21 @@
 ﻿@model List<Category>
 
+<div class="container-fluid p-0">
 
- 
-
-       
-    <div class="navbar-nav mr-auto py-0">
-        @for (int i = 0; i < Model.Count; i++)
-        {
-            <a href="index.html" class="nav-item nav-link">Home</a>
-
-            <div class="nav-item dropdown">
-                <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">@Model[i].CategoryName</a>
-                <div class="dropdown-menu rounded-0 m-0">
-                    <a href="#" class="dropdown-item">Menu item 1</a>
-                    <a href="#" class="dropdown-item">Menu item 2</a>
-                    <a href="#" class="dropdown-item">Menu item 3</a>
-                </div>
-            </div>
-
-            <a href="single.html" class="nav-item nav-link">Single News</a>
-        
-<a href="contact.html" class="nav-item nav-link">Contact</a>
-    
-   
-
-    }
-
+    <div class="nav-item dropdown">
+        <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">Категории</a>
+        <div class="dropdown-menu rounded-0 m-0">
+            <!-- Используем цикл для отображения всех категорий в выпадающем меню -->
+            @for (int i = 0; i < Model.Count; i++)
+            {
+                <a href="@Url.Action("Category", "Home", new { id = Model[i].Id })" class="dropdown-item">@Model[i].CategoryName</a>
+            }
+        </div>
     </div>
+</div>
+
+    
+
 
 
      
@@ -34,11 +23,4 @@
         
        
         
-    <div class="input-group ml-auto d-none d-lg-flex" style="width: 100%; max-width: 300px;">
-        <input type="text" class="form-control border-0" placeholder="Keyword">
-        <div class="input-group-append">
-            <button class="input-group-text bg-primary text-dark border-0 px-3">
-                <i class="fa fa-search"></i>
-            </button>
-        </div>
-    </div>
+   
