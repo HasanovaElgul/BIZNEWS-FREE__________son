@@ -1,26 +1,73 @@
-﻿@model List<Category>
+﻿
+       @model List<Category>
 
 <div class="container-fluid p-0">
-
-    <div class="nav-item dropdown">
-        <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">Категории</a>
+    <div class="nav-item btn-group">
+        <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Категории</a>
         <div class="dropdown-menu rounded-0 m-0">
-            <!-- Используем цикл для отображения всех категорий в выпадающем меню -->
-            @for (int i = 0; i < Model.Count; i++)
-            {
-                <a href="@Url.Action("Category", "Home", new { id = Model[i].Id })" class="dropdown-item">@Model[i].CategoryName</a>
-            }
-        </div>
+            <div class="tab">
+                @for (int i = 0; i < Model.Count; i++)
+                {
+                    <button class="tablinks @(i == 0 ? "active" : "")" onclick="openCategory(event, 'cat0@(i+1)')">@Model[i].CategoryName</button>
+
+                }
+            </div>
+    </div>
+
+    <div class="tab-details clearfix">
+        @{
+            int counter = 1;  // Начинаем счетчик с 1
+        }
+        @foreach (var item in Model)
+        {
+            <div id="cat@(counter)" class="menu-toggle @(counter == 1 ? "active" : "")">
+                <div class="row">
+                    @foreach (var article in item.Article.Take(4))
+                    {
+                        <!-- Добавляем onclick, чтобы переключаться на категорию -->
+                        <a href="#" class="dropdown-item" onclick="showCategory('@counter')">@article.Title</a>
+
+                        <div class="col-lg-3 col-md-6 col-sm-12 col-xs-12">
+                            <div class="blog-box">
+                                <div class="post-media">
+                                    <a href="tech-single.html" title="">
+                                        <img src="@article.PhotoUrl" alt="" class="img-fluid">
+                                        <div class="hovereffect">
+                                        </div><!-- end hover -->
+                                        <span class="menucat">@item.CategoryName</span>
+                                    </a>
+                                </div><!-- end media -->
+                                <div class="blog-meta">
+                                    <h4><a href="tech-single.html" title="">@article.Title</a></h4>
+                                </div><!-- end meta -->
+                            </div><!-- end blog-box -->
+                        </div>
+                    }
+
+
+                </div>
+            </div>
+            counter++;
+        }
     </div>
 </div>
 
-    
+    </div>
+</div>
 
 
 
-     
 
-        
-       
-        
-   
+
+
+
+
+
+
+
+
+
+
+
+
+

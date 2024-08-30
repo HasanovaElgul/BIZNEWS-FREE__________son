@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
+using WebUI.Models;
 
 namespace BIZNEWS_FREE.Data
 {
@@ -14,6 +15,7 @@ namespace BIZNEWS_FREE.Data
         public DbSet<ArticleTag> ArticleTags { get; set; }
         public DbSet<Category> Categories { get; set; }
         public DbSet<Tag> Tags { get; set; }
+        public DbSet<ArticleComment> ArticleComments { get; set; }
         protected override void OnModelCreating(ModelBuilder builder)
         {
             base.OnModelCreating(builder);

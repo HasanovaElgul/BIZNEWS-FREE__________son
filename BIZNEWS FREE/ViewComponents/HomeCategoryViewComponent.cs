@@ -19,7 +19,7 @@ namespace BIZNEWS_FREE.ViewComponents
 
         {
 
-            var categories = await _context.Categories.Include(x => x.Article).ToListAsync();
+            var categories = _context.Categories.Include(x => x.Article).ToList();
             return View("HomeCategory", categories);
 
         }

@@ -2,6 +2,8 @@
 using BIZNEWS_FREE.ViewModels;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using System.Security.Claims;
+using WebUI.Models;
 
 namespace BIZNEWS_FREE.Controllers
 {
@@ -76,6 +78,24 @@ namespace BIZNEWS_FREE.Controllers
 
 
             return View(detailVM);
+
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> AddComment(string content, string articleId)
+        {
+            var userId = _contextAccessor.HttpContext.User.FindFirst(ClaimTypes.NameIdentifier).Value;
+            ArticleComment articleComment = new()
+            {
+                Content = content,
+                PublishDate = DateTime.Now,
+                UserId = userId,
+                ArticleId = Convert.ToInt32(articleId),
+
+            };
+            await _context.ArticleComments.AddAsync(articleComment);
+            await _context.SaveChangesAsync();
+            return View();
 
         }
     }

@@ -11,12 +11,14 @@ namespace BIZNEWS_FREE.Controllers
     {
         private readonly UserManager<User> _userManager;
         private readonly SignInManager<User> _signInManager; // daxil olmaq üçün lazımdır
+        private readonly IHttpContextAccessor _contextAccessor;
 
         // Dependency Injection
-        public AuthController(UserManager<User> userManager, SignInManager<User> signInManager)
+        public AuthController(UserManager<User> userManager, SignInManager<User> signInManager, IHttpContextAccessor contextAccessor)
         {
             _userManager = userManager;
             _signInManager = signInManager; // SignInManager-in düzgün şəkildə inisializasiyası
+            _contextAccessor = contextAccessor;
         }
 
 
@@ -47,13 +49,22 @@ namespace BIZNEWS_FREE.Controllers
             IdentityResult identityResult = await _userManager.CreateAsync(newUser, registerDTO.Password);
             if (identityResult.Succeeded)
             {
+                var c = _contextAccessor.HttpContext.Request.Query["controller"];
+                var a = _contextAccessor.HttpContext.Request.Query["action"];
+                var id = _contextAccessor.HttpContext.Request.Query["id"];
+                var seoUrl = _contextAccessor.HttpContext.Request.Query["seoUrl"];
+                if (!string.IsNullOrEmpty(c))   //əgər data varsa
+                {
+                    return RedirectToAction(a, c, new { Id = id, SeoUrl = seoUrl });
+                }
+
                 return RedirectToAction("Index", "Home"); // əgər uğurludursa index səhifəsinə qayıtmaq üçün
             }
             else
             {
                 foreach (var error in identityResult.Errors)
                 {
-                    ModelState.AddModelError("error", error.Description);
+                    ModelState.AddModelError("error", "Istifadəci adı və ya şifrə səhvdir");
                 }
                 return View();
             }
