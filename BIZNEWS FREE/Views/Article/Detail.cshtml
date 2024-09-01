@@ -1,6 +1,7 @@
 ﻿@using System.Globalization
 @model DetailVM
 @using BIZNEWS_FREE.Models;
+@using System.Security.Claims
 
 <div class="position-relative mb-3">
     <img class="img-fluid w-10" src="img/news-700x435-1.jpg" style="object-fit: cover;">
@@ -42,16 +43,59 @@
     <hr class="invis1">
     <div class="custombox clearfix">
         <h4 class="small-title">Коментарий</h4>
+
+        <div class="mb-3">
+            <div class="section-title mb-0">
+                <h4 class="m-0 text-uppercase font-weight-bold">@Model.ArticleComments.Count Comments</h4>
+            </div>
+            <div class="bg-white border border-top-0 p-4">
+                @foreach (var item in Model.ArticleComments)
+                {
+
+                    <div class="media mb-4">
+
+                        <div class="media-body">
+                            <h6><a class="text-secondary font-weight-bold" name="CreatedBy" href="">@item.User.Firstname @item.User.Lastname</a> <small><i>@item.PublishDate.ToString("d MMMM,yyy hh:ss:mm", new System.Globalization.CultureInfo("az"))</i></small></h6>
+                            <p>
+                                @item.Content
+                            </p>
+
+                        </div>
+                        <div>
+                            <form asp-controller="Article" asp-action="DeleteComment" method="post">
+                                <input type="hidden" value="@Model.Article.Id" name="ArticleId" />
+                                <input type="hidden" name="commentId" value="@item.Id" />
+                                @{
+                                    var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+                                    var isAdmin = User.IsInRole("Admin");
+                                    var isSuperAdmin = User.IsInRole("Super Admin");
+                                }
+                                @if (item.User.Id == userId || isAdmin || isSuperAdmin)
+                                {
+
+                                    <button class="btn btn-danger">Delete</button>
+                                }
+
+                            </form>
+                        </div>
+
+                    </div>
+                }
+            </div>
+        </div>
+
         <div class="row">
             <div class="col-lg-12">
                 @if (User.Identity.IsAuthenticated)
                 {
-                    <form class="form-wrapper" action="AddComent">
+                    <form class="form-wrapper" asp-controller="Article" asp-action="AddComment" method="post">
 
-                        <input type="hidden" asp-for="Article.Id" name= "articleId" />
+                        <input type="hidden" value="@Model.Article.Id" name="articleId" />
                         <textarea class="form-control" name="content" placeholder="Your comment"></textarea>
                         <button type="submit" class="btn btn-primary btn-sm">Submit Comment</button>
                     </form>
+
+                 
                 }
                 else
                 {

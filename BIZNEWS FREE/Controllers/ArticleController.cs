@@ -35,22 +35,10 @@ namespace BIZNEWS_FREE.Controllers
                 .OrderByDescending(x => x.UpdatedDate)
                 .ToList();
 
-            var featuredArticles = _context.Articles
-                .Include(x => x.Category)
-                .Where(x => x.IsActive == true && x.IsFeature == false)
-                 .OrderByDescending(x => x.ViewCount)
-                .Take(7).ToList();
+            var currentArticle = articles.IndexOf(article);    //meqale 0 indeksdedir  
+            var prev = currentArticle <= 0 ? null : articles[currentArticle - 1];   //1ci indeksde olan meqaleni gorsedecek 
+            var next = currentArticle + 1 >= articles.Count ? null : articles[currentArticle + 1];    //  eger 101 varsa gorsedecek eger yoxdursa null gorsedecek
 
-            DetailVM detailVM = new()
-            {
-                Article = article,
-                Articles = articles,
-                FeaturedArticles = featuredArticles
-            };
-
-            //meqale 0 indeksdedir var currentArticle = articles.IndexOf(article);     
-            //1ci indeksde olan meqaleni gorsedecek var prev = currentArticle <= 0 ? null : articles[currentArticle - 1]; 
-            // var next = currentArticle + 1 >= articles.Count ? null : articles[currentArticle + 1];   eger 101 varsa gorsedecek eger yoxdursa null gorsedecek
 
             var cookie = _contextAccessor.HttpContext.Request.Cookies["Views"];
             string[] findCookie = { "" };
@@ -77,14 +65,50 @@ namespace BIZNEWS_FREE.Controllers
             _context.SaveChanges();
 
 
+            var similarArticles = _context.Articles.Include(x => x.Category)
+      .Where(x => x.CategoryId == article.CategoryId && x.Id != article.Id)
+      .Take(2).ToList();
+
+
+            var featuredArticles = _context.Articles
+
+                .Include(x => x.Category)
+                .Where(x => x.IsActive == true && x.IsFeature == false)
+                 .OrderByDescending(x => x.ViewCount)
+                .Take(7).ToList();
+
+            var articleComment = _context.ArticleComments
+.Include(x => x.User)
+.Include(x => x.Article)
+.Where(x => x.ArticleId == article.Id)
+.ToList();
+
+            DetailVM detailVM = new()
+            {
+                Article = article,
+                Articles = articles,
+                FeaturedArticles = featuredArticles,
+                ArticleComments = articleComment
+            };
             return View(detailVM);
+
+
+
+
+
+
+
+
+
 
         }
 
-        [HttpPost]
+
+
         public async Task<IActionResult> AddComment(string content, string articleId)
         {
             var userId = _contextAccessor.HttpContext.User.FindFirst(ClaimTypes.NameIdentifier).Value;
+
             ArticleComment articleComment = new()
             {
                 Content = content,
@@ -95,8 +119,10 @@ namespace BIZNEWS_FREE.Controllers
             };
             await _context.ArticleComments.AddAsync(articleComment);
             await _context.SaveChangesAsync();
-            return View();
+            return RedirectToAction("Detail", "Article", new { Id = articleId });
 
         }
+
+
     }
 }

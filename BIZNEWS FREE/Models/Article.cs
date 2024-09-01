@@ -28,6 +28,7 @@ namespace BIZNEWS_FREE.Models
         public bool IsActive { get; set; }
         public bool IsFeature { get; set; }
         public bool IsDeleted { get; set; }
+        //public List<ArticleComment> ArticleComments { get; set; }
         public string SeoUrl { get; set; } //sayti axtarisda qabağa cekmek
 
     }
