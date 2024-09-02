@@ -1,4 +1,5 @@
 ﻿using BIZNEWS_FREE.Data;
+using BIZNEWS_FREE.Models;
 using BIZNEWS_FREE.ViewModels;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -51,10 +52,16 @@ namespace BIZNEWS_FREE.Controllers
 
         public IActionResult Search(string query)
         {
+            if (string.IsNullOrEmpty(query))
+            {
+                return View(new List<Article>());
+            }
+
             var results = _context.Articles
                 .Where(a => a.Title.Contains(query) || a.Content.Contains(query))
                 .ToList();
-            return View(results); // Передаем List<Article> в представление
+
+            return View(results);
         }
 
 
