@@ -1,5 +1,4 @@
 ﻿using BIZNEWS_FREE.Models;
-using WebUI.Models;
 
 namespace BIZNEWS_FREE.ViewModels
 {

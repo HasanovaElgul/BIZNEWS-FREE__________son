@@ -76,3 +76,11 @@ app.MapControllerRoute(
     pattern: "{controller=Home}/{action=Index}/{id?}/{seoUrl?}");
 
 app.Run();
+
+app.UseEndpoints(endpoints =>
+{
+    endpoints.MapControllerRoute(
+        name: "search",
+        pattern: "search/{query?}",
+        defaults: new { controller = "Home", action = "Search" });
+});

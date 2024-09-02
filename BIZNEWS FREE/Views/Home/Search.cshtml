@@ -1,0 +1,20 @@
+﻿@using System.Linq
+@model List<BIZNEWS_FREE.Models.Article>
+
+<h2>Результаты поиска</h2>
+
+@if (Model.Any()) // Проверяем, есть ли элементы в модели
+{
+    foreach (var article in Model)
+    {
+        <div class="article">
+            <h3>@article.Title</h3>
+            <p>@article.Content</p>
+            <p><strong>Автор:</strong> @article.CreatedBy</p>
+        </div>
+    }
+}
+else
+{
+    <p>Результаты не найдены.</p>
+}

@@ -1,9 +1,10 @@
 ﻿using BIZNEWS_FREE.Data;
+using BIZNEWS_FREE.Models;
 using BIZNEWS_FREE.ViewModels;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System.Security.Claims;
-using WebUI.Models;
+
 
 namespace BIZNEWS_FREE.Controllers
 {

@@ -37,6 +37,8 @@ namespace BIZNEWS_FREE.Controllers
 
             var categories = _context.Categories.ToList();
 
+
+
             HomeVM homeVM = new()
             {
                 FeaturedArticles = featuredArticles,
@@ -45,6 +47,14 @@ namespace BIZNEWS_FREE.Controllers
                 Categories = categories
             };
             return View(homeVM);
+        }
+
+        public IActionResult Search(string query)
+        {
+            var results = _context.Articles
+                .Where(a => a.Title.Contains(query) || a.Content.Contains(query))
+                .ToList();
+            return View(results); // Передаем List<Article> в представление
         }
 
 

@@ -1,6 +1,4 @@
-﻿using BIZNEWS_FREE.Models;
-
-namespace WebUI.Models
+﻿namespace BIZNEWS_FREE.Models
 {
     public class ArticleComment
     {
