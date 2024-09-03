@@ -1,16 +1,16 @@
-﻿@using System.Linq
-@model List<BIZNEWS_FREE.Models.Article>
+﻿@model List<BIZNEWS_FREE.Models.Article>
 
 <h2>Результаты поиска</h2>
 
-@if (Model.Any()) // Проверяем, есть ли элементы в модели
+@if (Model.Any())
 {
-    foreach (var article in Model)
+    foreach (var searchResult in Model)
     {
-        <div class="article">
-            <h3>@article.Title</h3>
-            <p>@article.Content</p>
-            <p><strong>Автор:</strong> @article.CreatedBy</p>
+        <div class="search-result">
+            <h3>@searchResult.Title</h3>
+            <p>@searchResult.Content</p>
+            <p><strong>Автор:</strong> @searchResult.CreatedBy</p>
+         
         </div>
     }
 }

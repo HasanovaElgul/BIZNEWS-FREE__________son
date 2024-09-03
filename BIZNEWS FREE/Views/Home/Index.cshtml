@@ -24,21 +24,14 @@
         @await Component.InvokeAsync("HomeCategory")
 
 
-
-
-
-
         <form action="@Url.Action("Search", "Home")" method="get" class="input-group ml-auto d-none d-lg-flex" style="width: 100%; max-width: 300px;">
-            <input type="text" name="query" class="form-control border-0" placeholder="Keyword">
+            <input type="text" name="query" class="form-control border-0" placeholder="Поиск">
             <div class="input-group-append">
                 <button type="submit" class="input-group-text bg-primary text-dark border-0 px-3">
-                    <i class="fa fa-search"></i>
+                    <i class="fa fa-search"></i>                                                                            
                 </button>
             </div>
         </form>
-
-
-
 
     </nav>
 
@@ -307,7 +300,7 @@
                         <h4 class="m-0 text-uppercase font-weight-bold">Advertisement</h4>
                     </div>
                     <div class="bg-white text-center border border-top-0 p-3">
-                        <a href=""><img class="img-fluid" src="~/img/news-800x500-2.jpg" alt=""></a>
+                        <a href=""><img class="img-fluid" src="~/img/news-800x500-3.jpg" alt=""></a>
                     </div>
                 </div>
                 <!-- Ads End -->
@@ -324,7 +317,7 @@
                                 <img src="@item.PhotoUrl" alt="" style="width: 100px; height: 100px; object-fit: cover;">
                             <div class="w-100 h-100 px-3 d-flex flex-column justify-content-center border border-left-0">
                                 <div class="mb-2">
-                                    <a class="badge badge-primary text-uppercase font-weight-semi-bold p-1 mr-2" href="">Business</a>
+                                        <a class="badge badge-primary text-uppercase font-weight-semi-bold p-1 mr-2" href="">@item.Category.CategoryName</a>
                                     <a class="text-body" href=""><small>@item.CreatedDate</small></a>
                                 </div>
                                 <a class="h6 m-0 text-secondary text-uppercase font-weight-bold" href="">@item.Title</a>

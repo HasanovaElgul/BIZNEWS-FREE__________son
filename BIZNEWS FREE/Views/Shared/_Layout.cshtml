@@ -130,6 +130,7 @@
             </div>
             <div class="col-lg-3 col-md-6 mb-5">
                 <h5 class="mb-4 text-white text-uppercase font-weight-bold">Popular News</h5>
+                @if (Model.Articles != null)
                 @for (int i = 0; i < Model.Articles.Count && i < 2; i++)
                 {
                     <div class="mb-3">

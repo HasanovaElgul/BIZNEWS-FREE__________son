@@ -50,20 +50,30 @@ namespace BIZNEWS_FREE.Controllers
             return View(homeVM);
         }
 
+        // Метод для поиска статей
         public IActionResult Search(string query)
         {
+            // Если запрос пустой, возвращаем пустой список
             if (string.IsNullOrEmpty(query))
             {
-                return View(new List<Article>());
+                return View(new List<Search>());
             }
 
+            // Поиск статей по заголовку и содержимому
             var results = _context.Articles
                 .Where(a => a.Title.Contains(query) || a.Content.Contains(query))
+                .Select(a => new Search
+                {
+                    Title = a.Title,
+                    Content = a.Content,
+                    CreatedBy = a.CreatedBy,
+                    Articles = new List<Article> { a } // Если нужно включить найденные статьи
+                })
                 .ToList();
 
+            // Возвращаем представление с результатами поиска
             return View(results);
         }
-
 
 
 
